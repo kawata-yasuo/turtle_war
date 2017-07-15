@@ -4,7 +4,7 @@ import rospy
 from abc import ABCMeta, abstractmethod
 from geometry_msgs.msg import Twist
 from kobuki_msgs.msg import BumperEvent
-from gazebo_msgs.msg import ModelStates 
+from gazebo_msgs.msg import ModelStates
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 import cv2
@@ -14,8 +14,11 @@ class AbstractBot(object):
     __metaclass__ = ABCMeta
 
     def __init__(self, bot_name):
-        # bot name 
+        # bot name
         self.name = bot_name
+
+        # boring variables
+        self.turning_point = False
 
         # bumper state
         self.bumper = BumperEvent()
@@ -34,7 +37,7 @@ class AbstractBot(object):
 
         # camera subscriver
         # please uncoment out if you use camera
-        #self.image_sub = rospy.Subscriber('/camera/rgb/image_raw', Image, self.imageCallback)
+        self.image_sub = rospy.Subscriber('/camera/rgb/image_raw', Image, self.imageCallback)
 
     # bumper topic call back sample
     # update bumper state
@@ -44,7 +47,7 @@ class AbstractBot(object):
                 self.left_bumper = True
             else:
                 self.left_bumper = False
-                
+
         if data.bumper == 1:
             if data.state == 1:
                 self.center_bumper = True
@@ -71,4 +74,3 @@ class AbstractBot(object):
     @abstractmethod
     def strategy(self):
         pass
-
