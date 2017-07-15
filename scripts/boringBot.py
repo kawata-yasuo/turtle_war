@@ -55,7 +55,7 @@ class BoringBot(AbstractBot):
             if self.center_bumper or self.left_bumper or self.right_bumper or self.turning_point:
                 update_time = time.time()
                 control_speed = 0
-                control_turn = 3
+                control_turn = 0.5
 
             #elif time.time() - update_time > UPDATE_FREQUENCY:
             else:
